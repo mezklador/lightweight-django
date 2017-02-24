@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Tornado' Websockets</title>
+    </head>
+    <body>
+        <script id="config" type="text/json">
+            {
+                "models": {},
+                "collections": {},
+                "session": null,
+                "views": {},
+                "router": null,
+                "apiRoot": "{% url 'api-root' %}",
+                "apiLogin": "{% url 'api-token' %}"
+        </script>
+        <script src="{% static 'board/js/app.js' %}"></script>
+        <script src="{% static 'board/js/socket.js' %}"></script>
+    </body>
+</html>
