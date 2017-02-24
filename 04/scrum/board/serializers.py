@@ -111,18 +111,26 @@ class TaskSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, attrs):
-        sprint = attrs.get('sprint')
-        status = int(attrs.get('status'))
-        started = attrs.get('started')
-        completed = attrs.get('completed')
+        """
+        BUGFIXES: added None to each get attributes + a final ValidationError at
+        the end
+        FROM: https://github.com/djangopractice/scrum/blob/17c3b8b2850aa7d8aa1d3fecd38f0b654dfa2744/board/serializers.py
+        """
+        sprint = attrs.get('sprint', None)
+        status = attrs.get('status', None)
+        started = attrs.get('started', None)
+        completed = attrs.get('completed', None)
         if not sprint and status != Task.STATUS_TODO:
             msg = _('Backlog tasks must have "Not Started" status.')
             raise serializers.ValidationError(msg)
         if started and status == Task.STATUS_TODO:
-            msg = _('Started date cannot be set for not started tasks.')
+            msg = _('"Not Started" tasks cannot have a start date.')
             raise serializers.ValidationError(msg)
         if completed and status != Task.STATUS_DONE:
             msg = _('Completed date cannot be set for uncompleted tasks.')
+            raise serializers.ValidationError(msg)
+        if status == Task.STATUS_DONE and not completed:
+            msg = _('Completed tasks must have a completed date.')
             raise serializers.ValidationError(msg)
 
         return attrs
