@@ -1,9 +1,0 @@
-appdirs==1.4.2
-Django==1.10.5
-django-filter==1.0.1
-djangorestframework==3.5.4
-Markdown==2.6.8
-packaging==16.8
-psycopg2==2.6.2
-pyparsing==2.1.10
-six==1.10.0
